@@ -1,22 +1,22 @@
 import React from 'react'
 import Header from './components/header/Header'
-import { createGlobalStyle } from 'styled-components'
-import NewForm from './components/header/mainLayout/NewForm'
+import NewForm from './pages/NewForm'
+import QuizDataPage from './pages/QuizDataPage'
+import PassQuizPage from './pages/PassQuizPage'
+import { Routes, Route } from 'react-router-dom'
 
 const App = () => {
 	return (
 		<>
-			<Wrapper />
-			<Header />
-			<NewForm />
+			<Routes>
+				<Route path='/' element={<Header />}>
+					<Route path='form' element={<NewForm />}></Route>
+					<Route path='quiz' element={<QuizDataPage />}></Route>
+					<Route path='passquiz' element={<PassQuizPage />}></Route>
+				</Route>
+			</Routes>
 		</>
 	)
 }
-const Wrapper = createGlobalStyle`
-body{
-	margin: 0 auto;
-	padding: 0;
-	
-}
-`
+
 export default App

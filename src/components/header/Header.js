@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Link, Outlet } from 'react-router-dom'
 import { MdOutlinePalette } from 'react-icons/md'
 import { AiOutlineStar } from 'react-icons/ai'
 import { BsArrow90DegLeft } from 'react-icons/bs'
@@ -18,6 +19,7 @@ const Header = () => {
 						<img
 							className='logo'
 							src='https://img.icons8.com/color/48/000000/google-forms-new-logo-1.png'
+							alt='logo'
 						/>
 						<span>Новая Форма</span>
 
@@ -77,16 +79,19 @@ const Header = () => {
 				</HeaderControl>
 				<div className='links'>
 					<div>
-						<a>Вопросы</a>
+						<Link to='/form'>Вопросы</Link>
 					</div>
 					<div>
-						<a>Ответы</a>
+						<Link to='/quiz'>Ответы</Link>
 					</div>
 					<div>
-						<a> Настройки</a>
+						<Link to='/passquiz'> Настройки</Link>
 					</div>
 				</div>
 			</WrapperForHeader>
+			<main>
+				<Outlet />
+			</main>
 		</>
 	)
 }

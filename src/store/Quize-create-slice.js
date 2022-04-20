@@ -5,3 +5,5 @@ const QuizeCreateSlice = createSlice({
 	initialState: [],
 	reducers: {},
 })
+
+export default QuizeCreateSlice.reducer

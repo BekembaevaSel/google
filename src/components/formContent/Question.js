@@ -1,40 +1,39 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { BsCircle } from 'react-icons/bs'
 import styled from 'styled-components'
-import Button from '../../UI/Button'
 import Textarea from '../../UI/Textarea'
+import { addVariants } from '../../store/Quize-Slice'
+import { useDispatch } from 'react-redux'
 
-const Question = ({ questions, id, addQuestionsHandler }) => {
-	console.log(addQuestionsHandler);
+const Question = ({ id}) => {
+	const dispatch = useDispatch()
+
+	const [oneQuestion, setOneQuestion] = useState('')
+
+	// const addVariantsHandler = () => {
+	// 	const variantsData = {
+	// 		oneVariant: oneQuestion,
+	// 		id: Math.random().toString(),
+	// 	}
+	// 	dispatch(addVariants({ variantsData, id }))
+	// }
+
 	return (
 		<>
-			<div className='initialForm'>
-				<BsCircle />
-
-				<Textarea
-					placeholder='Вариант 1'
-					style={{ fontsize: '10px' }}
-				/>
-			</div>
-			<button onClick={addQuestionsHandler}>Добавить еще вариант</button>
-			
-				{questions.map((oneQuestion) => {
-					return (
-						<QuestionControl>	
-							<div key={Math.random().toString()} id={oneQuestion.id}>
-								<BsCircle />
-								<Textarea placeholder='вариант' />
-							</div>
-						</QuestionControl>
-					)
-				})}
-
-			{/* <QuestionControl>	
-				<div>
+			<QuestionControl>
+				<div className='initialForm'>
 					<BsCircle />
-					<Textarea placeholder='вариант' />
+
+					<Textarea
+						placeholder='Вариант 1'
+						style={{ fontsize: '10px' }}
+						onChange={(e) => setOneQuestion(e.target.value)}
+					/>
 				</div>
-			</QuestionControl> */}
+				<button>
+					Добавить еще вариант
+				</button>
+			</QuestionControl>
 		</>
 	)
 }

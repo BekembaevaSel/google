@@ -1,61 +1,50 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
+import { useState } from 'react'
+// import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import FormList from './FormList'
 import MiniSideMenu from './MiniSideMenu'
-import { useDispatch } from 'react-redux'
-import { useSelector } from 'react-redux'
-import { addNewForm } from '../../../store/Quize-Slice'
-
-const NewForm = (props) => {
-	const dispatch = useDispatch()
-
-	const quizeList = useSelector((state) => state.quize.quizeList)
-	const [showNewForm, setShowNewForm] = useState(false)
-
-	const showNewFormHandler = () => {
-		setShowNewForm((prevState) => !prevState)
+const FormName = ({addNewFormHandler}) => {
+	// const { title, description } = useSelector((state) =>
+	// 	console.log(state.quize),
+	// )
+	// const dispatch = useDispatch()
+	const [formTitle, setFormTitle] = useState('')
+	const [formDescription, setFormDescription] = useState('')
+	const formChangeHandler = (e) => {
+		setFormTitle(e.target.value)
 	}
-	const addNewFormHandler = () => {
-		const formData = {
-			id: Date.now(),
-			questions: [],
-			type: 'question',
-		}
-		dispatch(addNewForm(formData))
-		console.log(formData)
+	const descriptionChangeHandler = (e) => {
+		setFormDescription(e.target.value)
 	}
-	// const content = showNewForm && <FormList />
+
+	// const showNewFormHandler = () => {
+	// 	setShowNewForm((prevState) => !prevState)
+	// }
 
 	return (
 		<>
 			<NewFormControl>
 				<div>
 					<div>
-						<textarea placeholder='Новая форма' wrap='on' />
+						<textarea
+							placeholder='Новая форма'
+							wrap='on'
+							onChange={formChangeHandler}
+							value={formTitle}
+						/>
 					</div>
 					<div>
 						<textarea
 							className='secondTextarea'
 							placeholder='Описание'
 							wrap='on'
+							onChange={descriptionChangeHandler}
+							value={formDescription}
 						/>
 					</div>
 				</div>
-				<MiniSideMenu
-					showNewFormHandler={showNewFormHandler}
-					addNewFormHandler={addNewFormHandler}
-				/>
 			</NewFormControl>
-
-			{quizeList.map((quizeMaker) => {
-				return (
-					<FormList
-						quizeMaker={quizeMaker.id}
-						key={Math.random().toString()}
-						questions={quizeMaker.questions}
-					/>
-				)
-			})}
+			<MiniSideMenu addNewFormHandler={addNewFormHandler}/>
 		</>
 	)
 }
@@ -103,4 +92,4 @@ const NewFormControl = styled.div`
 		margin-bottom: 20px;
 	}
 `
-export default NewForm
+export default FormName

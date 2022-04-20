@@ -6,12 +6,8 @@ import { BsCardImage } from 'react-icons/bs'
 import { AiOutlinePlaySquare } from 'react-icons/ai'
 import { BiGridAlt } from 'react-icons/bi'
 import styled from 'styled-components'
-import { useSelector, useDispatch } from 'react-redux'
-import { addNewForm } from '../../../store/Quize-Slice'
-import FormList from './FormList'
 
-const MiniSideMenu = ({ addNewFormHandler}) => {
-	
+const MiniSideMenu = ({ addNewFormHandler }) => {
 	return (
 		<MiniMenuControl>
 			<section>
@@ -27,7 +23,7 @@ const MiniSideMenu = ({ addNewFormHandler}) => {
 					<MdOutlineExitToApp
 						fontSize='25px'
 						color=' #5f6368'
-						cursor='pointer'
+						cursor={'pointer'}
 					/>
 				</div>
 				<div>
@@ -52,7 +48,6 @@ const MiniSideMenu = ({ addNewFormHandler}) => {
 						fontSize='25px'
 						color=' #5f6368'
 						cursor='pointer'
-						
 					/>
 				</div>
 			</section>
@@ -60,13 +55,11 @@ const MiniSideMenu = ({ addNewFormHandler}) => {
 	)
 }
 const MiniMenuControl = styled.section`
-	background: #fff;
-
 	position: fixed;
-	right: 220px;
+	right: 200px;
+	background: #fff;
 	border-radius: 4px;
 	box-shadow: 0px 2px 2px 2px lightgray;
-	margin-top: 60px;
 
 	& div {
 		align-items: center;
@@ -76,7 +69,7 @@ const MiniMenuControl = styled.section`
 		height: 40px;
 		width: 50px;
 	}
-	& div:hover{
+	& div:hover {
 		background: lightgray;
 		border-radius: 4px;
 	}
