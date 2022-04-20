@@ -1,9 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-// const initialState = {
-// 	quizeList: [],
-// }
-
 const QuizeSlice = createSlice({
 	name: 'quize',
 	initialState: {
@@ -14,32 +10,57 @@ const QuizeSlice = createSlice({
 			{
 				questionTitle: '',
 				id: Math.random().toString(),
-				answers: [
-					{
-						title: '',
-						id: Math.random().toString(),
-					},
-				],
-				correctAnsers: [],
-				requirment: false,
+				answers: [],
+				required: false,
 			},
 		],
 	},
 	reducers: {
 		addNewForm: (state, action) => {
-			state.quizeList.push(action.payload)
+			state.quizeList.push({
+				id: Math.random().toString(),
+				answers: [
+					{
+						id: Math.random().toString(),
+					},
+				],
+				required: false,
+			})
 		},
-		addQuizeQuestions: (state, action) => {
-			const { quizQuestionsData, id } = action.payload
 
-			state.quizeList.map((question) => {
-				if (question.id !== id) {
-					question.questions.push(quizQuestionsData)
+		addAnswers: (state, action) => {
+			const { id } = action.payload
+			state.quizeList.map((el) => {
+				if (el.id === id) {
+					el.answers.push({
+						id: Math.random().toString(),
+						value: '',
+						isCorrect: false,
+					})
 				}
 			})
 		},
+		// addQuizeQuestionForm: (state, action) => {
+		// 	const { quizQuestionsData, id } = action.payload
+
+		// 	state.quizeList.map((el) => {
+		// 		if (el.id !== id) {
+		// 			el.questionTitle.push(quizQuestionsData)
+		// 		}
+		// 	})
+		// },
+		// addVariants: (state, action) => {
+		// 	const { variantsData, id } = action.payload
+
+		// 	state.quizeList.map((el) => {
+		// 		if (el.id !== id) {
+		// 			el.answers.push(variantsData)
+		// 		}
+		// 	})
+		// },
 	},
 })
 
-export const { addNewForm, addQuizeQuestions } = QuizeSlice.actions
+export const { addNewForm, addQuizeQuestionForm, addAnswers } =
+	QuizeSlice.actions
 export default QuizeSlice.reducer

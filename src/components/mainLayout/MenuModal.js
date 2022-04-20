@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { BsRecordCircle } from 'react-icons/bs'
 import { BsCardChecklist } from 'react-icons/bs'
 import { ImCalendar } from 'react-icons/im'
@@ -8,12 +8,11 @@ import { AiOutlineUser } from 'react-icons/ai'
 import { BsTelephonePlusFill } from 'react-icons/bs'
 import { AiOutlineMail } from 'react-icons/ai'
 import styled from 'styled-components'
-import { Route, Routes, Link } from 'react-router-dom'
-import UserPhoneNumber from '../../formContent/UserPhoneNumber'
-import UserName from '../../formContent/UserName'
-import UserEmail from '../../formContent/UserEmail'
-import TimeContent from '../../formContent/TimeContent'
 
+// import UserName from '../../formContent/UserName'
+// import UserEmail from '../../formContent/UserEmail'
+// import TimeContent from '../../formContent/TimeContent'
+// import UserPhoneNumber from '../formContent/UserPhoneNumber'
 const options = [
 	{
 		id: 'id1',
@@ -67,40 +66,16 @@ const MenuModal = ({ onCloseModal, setSelectorValue }) => {
 			<div onClick={() => onCloseModal(false)}>
 				<ModalControl>
 					<ModalContentControl>
-						{/* {options.map((el) => { */}
-						{/* return ( */}
-						<div >
-							<div onClick={(e) => selectorHandler(e)}>
-								<Link to='name'>name</Link>
-							</div>
-							<div>
-								<Link to='phone'>phone</Link>
-							</div>
-
-							<div>
-								<Link to='email'>email</Link>
-							</div>
-							<div>
-								<Link to='text'>text</Link>
-							</div>
-							<div>
-								<Link to='option'>one option</Link>
-							</div>
-							<div>
-								<Link to='date'>date</Link>
-							</div>
-							<div>
-								<Link to='time'>time</Link>
-							</div>
-						</div>
-						{/* ) */}
-						{/* })} */}
+						{options.map((el) => {
+							return <div onClick={selectorHandler}>{el.value}{el.name}</div>
+						})}
 					</ModalContentControl>
 				</ModalControl>
 			</div>
 		</>
 	)
 }
+
 const ModalControl = styled.div`
 	background: rgba(0, 0, 0, 0.75);
 `
@@ -120,6 +95,8 @@ const ModalContentControl = styled.div`
 	top: 200px;
 	cursor: pointer;
 	margin: 20px;
+
+	
 
 	& div:hover {
 		background: lightgrey;
