@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { Link, Outlet } from 'react-router-dom'
 import { MdOutlinePalette } from 'react-icons/md'
@@ -59,7 +59,7 @@ const Header = () => {
 							/>
 						</div>
 						<div>
-							<Button>Отправить</Button>
+							<Button>Сохранить форму</Button>
 						</div>
 						<div>
 							<BsThreeDotsVertical
@@ -79,13 +79,13 @@ const Header = () => {
 				</HeaderControl>
 				<div className='links'>
 					<div>
-						<Link to='/form'>Вопросы</Link>
+						<Link to='/'>Создать форму</Link>
 					</div>
 					<div>
-						<Link to='/quiz'>Ответы</Link>
+						<Link to='/quiz'>Формы</Link>
 					</div>
 					<div>
-						<Link to='/passquiz'> Настройки</Link>
+						<Link to='/passquiz'>Пройти</Link>
 					</div>
 				</div>
 			</WrapperForHeader>

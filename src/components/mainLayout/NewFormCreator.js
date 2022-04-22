@@ -1,18 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import styled from 'styled-components'
-import { useDispatch, useSelector } from 'react-redux'
 import MenuModal from './MenuModal'
 import Textarea from '../../UI/Textarea'
 import { BsCardImage } from 'react-icons/bs'
-import { addNewForm } from '../../store/Quize-Slice'
 import FormList from './FormList'
-import MiniSideMenu from './MiniSideMenu'
+import { saveQuestionTitle } from '../../store/Quize-Slice'
+import { useDispatch } from 'react-redux'
+import { VscCopy } from 'react-icons/vsc'
+import { RiDeleteBin7Line } from 'react-icons/ri'
+import { deleteForm } from '../../store/Quize-Slice'
+import { addAnswers } from '../../store/Quize-Slice'
 
-const NewFormCreator = ({ id, answers }) => {
+const NewFormCreator = ({ id, answers, quizeList }) => {
 	const [showMenuModal, setShowMenuModal] = useState(false)
 	const [name, setName] = useState('')
-	const [questionName, setQuestionName] = useState('')
+	const [questionName, setQuestionTitle] = useState('')
+	const dispatch = useDispatch()
+
+	
 
 	const showModalHandler = () => {
 		setShowMenuModal((prevState) => !prevState)
@@ -22,8 +28,25 @@ const NewFormCreator = ({ id, answers }) => {
 		setName(text)
 	}
 
-	const questionNameChangeHandler = (e) => {
-		setQuestionName(e.target.value)
+	const onChange = (e) => {
+		setQuestionTitle(e.target.value)
+	}
+
+	const questionTitleHandler = (questionId) => {
+		dispatch(
+			saveQuestionTitle({
+				questionName,
+				questionId,
+			}),
+		)
+	}
+
+	const addVariant = () => {
+		dispatch(addAnswers(id))
+	}
+
+	const deleteFormHandler = () => {
+		dispatch(deleteForm({ id }))
 	}
 
 	return (
@@ -34,9 +57,10 @@ const NewFormCreator = ({ id, answers }) => {
 						<div className='upSide'>
 							<div>
 								<Textarea
+									defaultValue={questionName}
 									placeholder='Вопрос'
-									onChange={questionNameChangeHandler}
-									value={questionName}
+									onChange={onChange}
+									onBlur={() => questionTitleHandler(id)}
 								/>
 							</div>
 							<div>
@@ -59,22 +83,31 @@ const NewFormCreator = ({ id, answers }) => {
 						</div>
 					</div>
 				</ListControl>
-				<FormList id={id} answers={answers} />
+
+				<FormList
+					id={id}
+					answers={answers}
+					key={Math.random().toString()}
+				/>
+
+				<div className='functionalIcons'>
+					<div>
+						<VscCopy fontSize='25px' color=' #5f6368' />
+					</div>
+					<div>
+						<RiDeleteBin7Line
+							onClick={deleteFormHandler}
+							fontSize='25px'
+							color=' #5f6368'
+						/>
+					</div>
+					<button onClick={addVariant}>Добавить вариант</button>
+				</div>
 			</Wrapper>
 		</>
 	)
 }
 
-// const QuestionControl = styled.div`
-// 	align-items: center;
-// 	margin-left: 35px;
-// 	border-bottom: 1px solid #dadce0;
-// 	padding: 20px;
-
-// 	button {
-// 		border: none;
-// 	}
-// `
 const Wrapper = styled.div`
 	background: #fff;
 	width: 900px;
@@ -84,6 +117,27 @@ const Wrapper = styled.div`
 	border-top: 1ch solid darkviolet;
 	border-radius: 4px;
 	box-shadow: 0px 2px 2px 2px lightgray;
+
+	.functionalIcons {
+		min-width: 300px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		justify-content: space-around;
+		padding: 30px;
+		cursor: pointer;
+	}
+
+	& button {
+		border: none;
+		font-size: 15px;
+		color: blue;
+	}
+	& button:hover {
+		color: blue;
+		border-bottom: 2px solid blue;
+		border-radius: 3px;
+	}
 `
 const ListControl = styled.div`
 	.upSide {
@@ -129,7 +183,6 @@ const ListControl = styled.div`
 	}
 `
 const InputModalShow = styled.div`
-	/* position: relative; */
 	background: lightgray;
 	display: flex;
 	align-items: center;

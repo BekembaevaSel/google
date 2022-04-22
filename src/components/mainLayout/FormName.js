@@ -1,25 +1,22 @@
-import React from 'react'
-import { useState } from 'react'
-// import { useDispatch, useSelector } from 'react-redux'
+import React, { useRef } from 'react'
 import styled from 'styled-components'
 import MiniSideMenu from './MiniSideMenu'
-const FormName = ({addNewFormHandler}) => {
-	// const { title, description } = useSelector((state) =>
-	// 	console.log(state.quize),
-	// )
-	// const dispatch = useDispatch()
-	const [formTitle, setFormTitle] = useState('')
-	const [formDescription, setFormDescription] = useState('')
-	const formChangeHandler = (e) => {
-		setFormTitle(e.target.value)
-	}
-	const descriptionChangeHandler = (e) => {
-		setFormDescription(e.target.value)
-	}
+import { useDispatch } from 'react-redux'
+import { changeFormValue } from '../../store/Quize-Slice'
 
-	// const showNewFormHandler = () => {
-	// 	setShowNewForm((prevState) => !prevState)
-	// }
+const FormName = ({ addNewFormHandler }) => {
+	const titleRef = useRef()
+	const descriptionRef = useRef()
+
+	const dispatch = useDispatch()
+
+	const formChangeHandler = (e) => {
+		const TitleValues = {
+			titleValue: titleRef.current.value,
+			descriptionValue: descriptionRef.current.value,
+		}
+		dispatch(changeFormValue(TitleValues))
+	}
 
 	return (
 		<>
@@ -29,8 +26,8 @@ const FormName = ({addNewFormHandler}) => {
 						<textarea
 							placeholder='Новая форма'
 							wrap='on'
-							onChange={formChangeHandler}
-							value={formTitle}
+							onBlur={formChangeHandler}
+							ref={titleRef}
 						/>
 					</div>
 					<div>
@@ -38,13 +35,13 @@ const FormName = ({addNewFormHandler}) => {
 							className='secondTextarea'
 							placeholder='Описание'
 							wrap='on'
-							onChange={descriptionChangeHandler}
-							value={formDescription}
+							onBlur={formChangeHandler}
+							ref={descriptionRef}
 						/>
 					</div>
 				</div>
 			</NewFormControl>
-			<MiniSideMenu addNewFormHandler={addNewFormHandler}/>
+			<MiniSideMenu addNewFormHandler={addNewFormHandler} />
 		</>
 	)
 }
@@ -69,7 +66,7 @@ const NewFormControl = styled.div`
 		height: 60px;
 		font-size: 32px;
 		font-weight: 400;
-		color: #202124;
+		color: black;
 		border-bottom: 3p;
 		border-top: none;
 		border-left: none;
@@ -78,9 +75,7 @@ const NewFormControl = styled.div`
 		outline: none;
 		resize: none;
 		overflow: hidden;
-
 		font-family: Arial, Helvetica, sans-serif;
-		color: darkgrey;
 	}
 	& textarea:focus {
 		border-bottom: 3px solid blue;

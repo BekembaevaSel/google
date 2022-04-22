@@ -12,7 +12,7 @@ const Textarea = styled.textarea`
 		overflow: hidden;
 		font-size: 14px;
 		font-family: Arial, Helvetica, sans-serif;
-		color: darkgrey;
+		color: black;
 	
 `
 export default Textarea

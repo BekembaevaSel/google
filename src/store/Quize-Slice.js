@@ -16,7 +16,7 @@ const QuizeSlice = createSlice({
 		],
 	},
 	reducers: {
-		addNewForm: (state, action) => {
+		addNewForm: (state) => {
 			state.quizeList.push({
 				id: Math.random().toString(),
 				answers: [
@@ -29,7 +29,7 @@ const QuizeSlice = createSlice({
 		},
 
 		addAnswers: (state, action) => {
-			const { id } = action.payload
+			const id = action.payload
 			state.quizeList.map((el) => {
 				if (el.id === id) {
 					el.answers.push({
@@ -40,27 +40,63 @@ const QuizeSlice = createSlice({
 				}
 			})
 		},
-		// addQuizeQuestionForm: (state, action) => {
-		// 	const { quizQuestionsData, id } = action.payload
+		changeFormValue: (state, action) => {
+			const { titleValue, descriptionValue } = action.payload
 
-		// 	state.quizeList.map((el) => {
-		// 		if (el.id !== id) {
-		// 			el.questionTitle.push(quizQuestionsData)
-		// 		}
-		// 	})
+			state.title = titleValue
+			state.description = descriptionValue
+		},
+
+		// changeQuestionTitle: (state, action) => {
+		// 	const { questionName } = action.payload
+		// 	console.log(action.payload)
+		// 	state.questionTitle = questionName
 		// },
-		// addVariants: (state, action) => {
-		// 	const { variantsData, id } = action.payload
+		saveQuestionTitle: (state, action) => {
+			const { questionId,  questionName } = action.payload
+			const variants = state.quizeList.find(
+				(el) => el.id === questionId,
+			)
+			variants.questionTitle = questionName
+		},
 
+		changeVariants: (state, action) => {
+			const { variantValue, itemId, formId } = action.payload
+			const form = state.quizeList.find((el) => el.id === formId)
+			form.answers.map((el) => {
+				if (el.id === itemId) {
+					el.value = variantValue
+				}
+				return el
+			})
+		},
+		deleteForm: (state, action) => {
+			state.quizeList = state.quizeList.filter(
+				(el) => el.id !== action.payload.id,
+			)
+		},
+
+		// createDublicate: (state, action) => {
+		// 	const { id } = action.payload
 		// 	state.quizeList.map((el) => {
-		// 		if (el.id !== id) {
-		// 			el.answers.push(variantsData)
+		// 		if (el.id === id) {
+		// 			el.quizeList.push({
+		// 				id: Math.random().toString(),
+		// 			})
 		// 		}
 		// 	})
 		// },
 	},
 })
 
-export const { addNewForm, addQuizeQuestionForm, addAnswers } =
-	QuizeSlice.actions
+export const {
+	addNewForm,
+	addAnswers,
+	createDublicate,
+	changeFormValue,
+	changeQuestionTitle,
+	changeVariants,
+	deleteForm,
+	saveQuestionTitle,
+} = QuizeSlice.actions
 export default QuizeSlice.reducer

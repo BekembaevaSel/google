@@ -8,11 +8,6 @@ import { AiOutlineUser } from 'react-icons/ai'
 import { BsTelephonePlusFill } from 'react-icons/bs'
 import { AiOutlineMail } from 'react-icons/ai'
 import styled from 'styled-components'
-
-// import UserName from '../../formContent/UserName'
-// import UserEmail from '../../formContent/UserEmail'
-// import TimeContent from '../../formContent/TimeContent'
-// import UserPhoneNumber from '../formContent/UserPhoneNumber'
 const options = [
 	{
 		id: 'id1',
@@ -67,7 +62,12 @@ const MenuModal = ({ onCloseModal, setSelectorValue }) => {
 				<ModalControl>
 					<ModalContentControl>
 						{options.map((el) => {
-							return <div onClick={selectorHandler}>{el.value}{el.name}</div>
+							return (
+								<div onClick={selectorHandler}>
+									{el.value}
+									{el.name}
+								</div>
+							)
 						})}
 					</ModalContentControl>
 				</ModalControl>
@@ -95,9 +95,6 @@ const ModalContentControl = styled.div`
 	top: 200px;
 	cursor: pointer;
 	margin: 20px;
-
-	
-
 	& div:hover {
 		background: lightgrey;
 		border-radius: 4px;
