@@ -7,25 +7,27 @@ import { BsCardImage } from 'react-icons/bs'
 import FormList from './FormList'
 import { saveQuestionTitle } from '../../store/Quize-Slice'
 import { useDispatch } from 'react-redux'
-import { VscCopy } from 'react-icons/vsc'
-import { RiDeleteBin7Line } from 'react-icons/ri'
 import { deleteForm } from '../../store/Quize-Slice'
 import { addAnswers } from '../../store/Quize-Slice'
+import Button from '../../UI/Button'
+import { INPUT_TYPES } from '../../utils/constants/general'
+import FormFooter from './FormFooter'
+import { changeTypeOfQuestion } from '../../store/Quize-Slice'
 
-const NewFormCreator = ({ id, answers, quizeList }) => {
+const NewFormCreator = ({ quizItem }) => {
+	const { answers } = quizItem
 	const [showMenuModal, setShowMenuModal] = useState(false)
 	const [name, setName] = useState('')
 	const [questionName, setQuestionTitle] = useState('')
 	const dispatch = useDispatch()
 
-	
-
 	const showModalHandler = () => {
 		setShowMenuModal((prevState) => !prevState)
 	}
 
-	const setSelectorValue = (text) => {
-		setName(text)
+	const setSelectorValue = (contentType) => {
+		console.log(contentType)
+		dispatch(changeTypeOfQuestion({ contentType, id: quizItem.id }))
 	}
 
 	const onChange = (e) => {
@@ -41,12 +43,8 @@ const NewFormCreator = ({ id, answers, quizeList }) => {
 		)
 	}
 
-	const addVariant = () => {
-		dispatch(addAnswers(id))
-	}
-
 	const deleteFormHandler = () => {
-		dispatch(deleteForm({ id }))
+		dispatch(deleteForm({ id: quizItem.id }))
 	}
 
 	return (
@@ -60,7 +58,9 @@ const NewFormCreator = ({ id, answers, quizeList }) => {
 									defaultValue={questionName}
 									placeholder='Вопрос'
 									onChange={onChange}
-									onBlur={() => questionTitleHandler(id)}
+									onClick={() =>
+										questionTitleHandler(quizItem.id)
+									}
 								/>
 							</div>
 							<div>
@@ -69,7 +69,8 @@ const NewFormCreator = ({ id, answers, quizeList }) => {
 							<div>
 								<InputModalShow onClick={showModalHandler}>
 									<div>
-										<span>{name}</span>
+										{quizItem.type.value}
+										<span>{quizItem.type.name}</span>
 									</div>
 								</InputModalShow>
 
@@ -84,25 +85,15 @@ const NewFormCreator = ({ id, answers, quizeList }) => {
 					</div>
 				</ListControl>
 
+				{/* {answers.map((item) => ( */}
 				<FormList
-					id={id}
-					answers={answers}
-					key={Math.random().toString()}
+					quizItem={quizItem}
+					answers={quizItem.answers}
+					itemId={quizItem.id}
 				/>
+				{/* ))} */}
 
-				<div className='functionalIcons'>
-					<div>
-						<VscCopy fontSize='25px' color=' #5f6368' />
-					</div>
-					<div>
-						<RiDeleteBin7Line
-							onClick={deleteFormHandler}
-							fontSize='25px'
-							color=' #5f6368'
-						/>
-					</div>
-					<button onClick={addVariant}>Добавить вариант</button>
-				</div>
+				<FormFooter deleteFormHandler={deleteFormHandler} />
 			</Wrapper>
 		</>
 	)
@@ -117,16 +108,6 @@ const Wrapper = styled.div`
 	border-top: 1ch solid darkviolet;
 	border-radius: 4px;
 	box-shadow: 0px 2px 2px 2px lightgray;
-
-	.functionalIcons {
-		min-width: 300px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		justify-content: space-around;
-		padding: 30px;
-		cursor: pointer;
-	}
 
 	& button {
 		border: none;

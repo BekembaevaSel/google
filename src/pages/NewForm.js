@@ -1,42 +1,31 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import FormName from '../components/mainLayout/FormName'
+import { options } from '../components/mainLayout/MenuModal'
 import NewFormCreator from '../components/mainLayout/NewFormCreator'
 import { addNewForm } from '../store/Quize-Slice'
-import { createDublicate } from '../store/Quize-Slice'
+import { INPUT_TYPES } from '../utils/constants/general'
 
 const NewForm = () => {
 	const quizeList = useSelector((state) => state.quize.quizeList)
-
+	const [defaultType, setDefaultType] = useState(options[0])
 	const dispatch = useDispatch()
 
-	useEffect(() => {
-		localStorage.setItem('quiz', JSON.stringify(quizeList))
-	}, [quizeList])
-
-
-	const addNewFormHandler = (id) => {
-		dispatch(addNewForm({ id }))
+	const addNewFormHandler = () => {
+		const newForm = {
+			id: Date.now().toLocaleString(),
+			type: defaultType,
+			questionTitle: '',
+			answers: [],
+		}
+		dispatch(addNewForm(newForm))
 	}
-	const dublicateForm = (id) => {
-		dispatch(createDublicate({ id }))
-	}
+
 	return (
 		<>
-			<FormName
-				addNewFormHandler={addNewFormHandler}
-				dublicateForm={dublicateForm}
-			/>
-
-			{quizeList.map((el) => {
-				return (
-					<NewFormCreator
-						key={el.id}
-						id={el.id}
-						answers={el.answers}
-						quizeList={quizeList}
-					/>
-				)
+			<FormName addNewFormHandler={addNewFormHandler} />
+			{quizeList.map((form) => {
+				return <NewFormCreator key={form.id} quizItem={form} />
 			})}
 		</>
 	)

@@ -1,0 +1,5 @@
+export const INPUT_TYPES = {
+	NAME: 'NAME',
+	ONE_OUT_OF_MANY: 'ONE_OUT_MANY',
+	MANY_OUT_OF_MANY: 'MANY_OUT_OF_MANY',
+}

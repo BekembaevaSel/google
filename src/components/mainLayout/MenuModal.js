@@ -1,59 +1,39 @@
 import React from 'react'
 import { BsRecordCircle } from 'react-icons/bs'
 import { BsCardChecklist } from 'react-icons/bs'
-import { ImCalendar } from 'react-icons/im'
-import { MdAccessTime } from 'react-icons/md'
-import { BiMenuAltLeft } from 'react-icons/bi'
 import { AiOutlineUser } from 'react-icons/ai'
-import { BsTelephonePlusFill } from 'react-icons/bs'
-import { AiOutlineMail } from 'react-icons/ai'
 import styled from 'styled-components'
-const options = [
-	{
-		id: 'id1',
-		value: <AiOutlineUser fontSize='30px' color=' #5f6368' />,
-		name: 'Имя',
-	},
-	{
-		id: 'id2',
-		value: <BsTelephonePlusFill fontSize='30px' color=' #5f6368' />,
-		name: 'Номер телефона',
-	},
-	{
-		id: 'id3',
-		value: <AiOutlineMail fontSize='30px' color=' #5f6368' />,
-		name: 'Почта',
-	},
-	{
-		id: 'id4',
-		value: <BiMenuAltLeft fontSize='30px' color=' #5f6368' />,
-		name: 'Текст (строка)',
-	},
+import { INPUT_TYPES } from '../../utils/constants/general'
+import { useDispatch } from 'react-redux'
+import { changeTypeOfQuestion } from '../../store/Quize-Slice'
+
+export const options = [
 	{
 		id: 'id5',
-		value: <BsRecordCircle fontSize='30px' color=' #5f6368' />,
+		// value: <BsRecordCircle fontSize='30px' color=' #5f6368' />,
 		name: 'Один из списка',
+		type: INPUT_TYPES.ONE_OUT_OF_MANY,
 	},
+	{
+		id: 'id1',
+		// value: <AiOutlineUser fontSize='30px' color=' #5f6368' />,
+		name: 'Имя',
+		type: INPUT_TYPES.NAME,
+	},
+
 	{
 		id: 'id6',
-		value: <BsCardChecklist fontSize='30px' color=' #5f6368' />,
+		// value: <BsCardChecklist fontSize='30px' color=' #5f6368' />,
 		name: 'Несколько из списка',
-	},
-	{
-		id: 'id7',
-		value: <ImCalendar fontSize='30px' color=' #5f6368' />,
-		name: 'Дата',
-	},
-	{
-		id: 'id8',
-		value: <MdAccessTime fontSize='30px' color=' #5f6368'></MdAccessTime>,
-		name: 'Время',
+		type: INPUT_TYPES.MANY_OUT_OF_MANY,
 	},
 ]
 
-const MenuModal = ({ onCloseModal, setSelectorValue }) => {
-	const selectorHandler = (e) => {
-		setSelectorValue(e.currentTarget.textContent)
+const MenuModal = ({ onCloseModal, setSelectorValue, id }) => {
+	const dispatch = useDispatch()
+
+	const changeSelectValueWithModal = (contentType) => {
+		setSelectorValue(contentType)
 	}
 
 	return (
@@ -63,7 +43,12 @@ const MenuModal = ({ onCloseModal, setSelectorValue }) => {
 					<ModalContentControl>
 						{options.map((el) => {
 							return (
-								<div onClick={selectorHandler}>
+								<div
+									key={el.id}
+									onClick={() =>
+										changeSelectValueWithModal(el)
+									}
+								>
 									{el.value}
 									{el.name}
 								</div>
@@ -83,13 +68,13 @@ const ModalControl = styled.div`
 const ModalContentControl = styled.div`
 	display: flex;
 	justify-content: space-around;
+	margin-right: 40px;
 	flex-direction: column;
 	border-radius: 12px;
 	background-color: white;
 	box-shadow: 0px 3px 3px 3px lightgray;
-	height: 500px;
+	height: 250px;
 	width: 250px;
-	opacity: 1;
 	transition: 5ms;
 	position: absolute;
 	top: 200px;

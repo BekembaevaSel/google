@@ -1,44 +1,46 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { INPUT_TYPES } from '../utils/constants/general'
 
 const QuizeSlice = createSlice({
 	name: 'quize',
 	initialState: {
 		title: '',
 		description: '',
-		id: Math.random().toString(),
+		id: new Date().toLocaleString(),
 		quizeList: [
 			{
 				questionTitle: '',
-				id: Math.random().toString(),
+				id: 'e1',
+				type: {},
 				answers: [],
-				required: false,
 			},
 		],
 	},
 	reducers: {
-		addNewForm: (state) => {
-			state.quizeList.push({
-				id: Math.random().toString(),
-				answers: [
-					{
-						id: Math.random().toString(),
-					},
-				],
-				required: false,
-			})
+		addNewForm: (state, action) => {
+			const newForm = action.payload
+			state.quizeList.push(newForm)
 		},
-
 		addAnswers: (state, action) => {
 			const id = action.payload
-			state.quizeList.map((el) => {
-				if (el.id === id) {
-					el.answers.push({
-						id: Math.random().toString(),
-						value: '',
-						isCorrect: false,
-					})
-				}
+			const currAnswers = state.quizeList.find((el) => el.id === id)
+
+			currAnswers.answers.push({
+				id: new Date().toLocaleString(),
+				value: '',
 			})
+		},
+		changeTypeOfQuestion: (state, action) => {
+			const { contentType, id } = action.payload
+
+			const currentForm = state.quizeList.find((el) => el.id === id)
+
+			currentForm.type = contentType
+		},
+		saveQuestionTitle: (state, action) => {
+			const { questionId, questionName } = action.payload
+			const variants = state.quizeList.find((el) => el.id === questionId)
+			variants.questionTitle = questionName
 		},
 		changeFormValue: (state, action) => {
 			const { titleValue, descriptionValue } = action.payload
@@ -46,23 +48,9 @@ const QuizeSlice = createSlice({
 			state.title = titleValue
 			state.description = descriptionValue
 		},
-
-		// changeQuestionTitle: (state, action) => {
-		// 	const { questionName } = action.payload
-		// 	console.log(action.payload)
-		// 	state.questionTitle = questionName
-		// },
-		saveQuestionTitle: (state, action) => {
-			const { questionId,  questionName } = action.payload
-			const variants = state.quizeList.find(
-				(el) => el.id === questionId,
-			)
-			variants.questionTitle = questionName
-		},
-
 		changeVariants: (state, action) => {
-			const { variantValue, itemId, formId } = action.payload
-			const form = state.quizeList.find((el) => el.id === formId)
+			const { variantValue, itemId, parentId } = action.payload
+			const form = state.quizeList.find((el) => el.id === parentId)
 			form.answers.map((el) => {
 				if (el.id === itemId) {
 					el.value = variantValue
@@ -70,24 +58,28 @@ const QuizeSlice = createSlice({
 				return el
 			})
 		},
-		deleteForm: (state, action) => {
-			state.quizeList = state.quizeList.filter(
-				(el) => el.id !== action.payload.id,
-			)
-		},
-
-		// createDublicate: (state, action) => {
-		// 	const { id } = action.payload
-		// 	state.quizeList.map((el) => {
-		// 		if (el.id === id) {
-		// 			el.quizeList.push({
-		// 				id: Math.random().toString(),
-		// 			})
-		// 		}
-		// 	})
-		// },
 	},
 })
+
+// deleteAnswer: (state, action) => {
+// 	const { quizId, parentId } = action.payload
+// 	const current = state.quizeList.find((el) => el.id === parentId)
+// 	state.quizeList.forEach((el) => {
+// 		if (el.id === parentId) {
+// 			el.answers = current.answers.filter(
+// 				(item) => item.id !== quizId,
+// 			)
+// 		}
+// 	})
+// },
+
+// 	deleteForm: (state, action) => {
+// 		state.quizeList = state.quizeList.filter(
+// 			(el) => el.id !== action.payload.id,
+// 		)
+// 	},
+
+// }),
 
 export const {
 	addNewForm,
@@ -98,5 +90,8 @@ export const {
 	changeVariants,
 	deleteForm,
 	saveQuestionTitle,
+	deleteAnswer,
+	changeTypeOfQuestion,
 } = QuizeSlice.actions
+
 export default QuizeSlice.reducer

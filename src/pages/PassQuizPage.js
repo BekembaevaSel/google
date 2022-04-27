@@ -2,8 +2,10 @@ import React from 'react'
 
 const PassQuizPage = () => {
   return (
-    <div>PassQuizPage</div>
+    <div>
+      
+    </div>
   )
 }
 
-export default PassQuizPage
+export default PassQuizPage;

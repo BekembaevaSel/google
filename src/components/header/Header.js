@@ -10,7 +10,7 @@ import { BsThreeDotsVertical } from 'react-icons/bs'
 import { AiOutlineUser } from 'react-icons/ai'
 import Button from '../../UI/Button'
 
-const Header = () => {
+const Header = ({ saveFormHandler }) => {
 	return (
 		<>
 			<WrapperForHeader>
@@ -59,7 +59,9 @@ const Header = () => {
 							/>
 						</div>
 						<div>
-							<Button>Сохранить форму</Button>
+							<Button onClick={saveFormHandler}>
+								Сохранить форму
+							</Button>
 						</div>
 						<div>
 							<BsThreeDotsVertical
@@ -113,7 +115,7 @@ const WrapperForHeader = styled.header`
 		padding: 20px;
 		cursor: pointer;
 	}
-	.links a:hover {
+	.links a:focus {
 		color: rgb(103, 58, 183);
 		border-bottom: 4px solid blue;
 		border-radius: 4px;
